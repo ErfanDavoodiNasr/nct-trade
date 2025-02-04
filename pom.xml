@@ -8,11 +8,11 @@
         <version>3.4.2</version>
         <relativePath/>
     </parent>
-    <groupId>com.github</groupId>
-    <artifactId>nct-trade</artifactId>
+    <groupId>ir.ncttrade</groupId>
+    <artifactId>ncttrade</artifactId>
     <version>0.0.1</version>
-    <name>nct-trade</name>
-    <description>nct-trade</description>
+    <name>ncttrade</name>
+    <description>ncttrade</description>
     <url/>
     <licenses>
         <license/>
