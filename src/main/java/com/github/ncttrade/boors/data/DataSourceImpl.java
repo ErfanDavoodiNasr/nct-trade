@@ -17,6 +17,50 @@ import java.util.List;
 public class DataSourceImpl implements DataSource {
     @Override
     public Title findById(Integer id, String company) throws IOException, CsvException {
+        String csvFile = "src/main/java/com/github/ncttrade/boors/data/csv_files/".concat(company).concat(".csv");
+        Title title = null;
+        try (CSVReader reader = new CSVReader(new FileReader(csvFile, StandardCharsets.UTF_8))) {
+            List<String[]> rows = reader.readAll();
+
+            if (rows.isEmpty()) {
+                return null;
+            }
+
+            String[] years = rows.get(0);
+
+            for (int i = 1; i < rows.size(); i++) {
+                String[] row = rows.get(i);
+                if (row.length == 0) continue;
+
+                String titleName = row[0];
+
+                title = Title.builder()
+                        .id(i - 1)
+                        .name(titleName)
+                        .data(new ArrayList<>())
+                        .build();
+
+                for (int j = 1; j < row.length; j++) {
+                    if (j < years.length && !row[j].isEmpty()) {
+
+                        int year = Integer.parseInt(years[j]);
+                        String value = row[j];
+
+                        DataAndValue dataAndValue = DataAndValue.builder()
+                                .year(year)
+                                .value(value)
+                                .build();
+                        title.getData().add(dataAndValue);
+                    }
+                }
+                if (id.equals(i - 1)) {
+                    return title;
+                }
+            }
+        } catch (IOException | CsvException e) {
+            throw e;
+        }
+
         return null;
     }
 
