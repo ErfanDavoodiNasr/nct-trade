@@ -1,4 +1,4 @@
-package com.github.ncttrade.model.dto;
+package com.github.ncttrade.forex.model.dto;
 
 
 import lombok.AllArgsConstructor;

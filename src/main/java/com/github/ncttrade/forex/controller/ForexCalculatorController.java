@@ -1,10 +1,10 @@
-package com.github.ncttrade.controller;
+package com.github.ncttrade.forex.controller;
 
 
-import com.github.ncttrade.exception.InvalidSymbolException;
-import com.github.ncttrade.model.dto.MarginRequest;
-import com.github.ncttrade.model.dto.PositionSizeRequest;
-import com.github.ncttrade.service.ForexCalculator;
+import com.github.ncttrade.forex.exception.InvalidSymbolException;
+import com.github.ncttrade.forex.model.dto.MarginRequest;
+import com.github.ncttrade.forex.model.dto.PositionSizeRequest;
+import com.github.ncttrade.forex.service.ForexCalculatorService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -19,7 +19,7 @@ import java.net.URISyntaxException;
 @RequestMapping("/api/forex-calculator")
 @RequiredArgsConstructor
 public class ForexCalculatorController {
-    private final ForexCalculator forexCalculator;
+    private final ForexCalculatorService forexCalculator;
 
     @PostMapping("/position-size")
     public ResponseEntity<Double> positionSize(@RequestBody PositionSizeRequest req) throws URISyntaxException, IOException, InterruptedException, InvalidSymbolException {

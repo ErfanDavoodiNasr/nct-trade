@@ -1,6 +1,6 @@
-package com.github.ncttrade.util;
+package com.github.ncttrade.forex.util;
 
-import com.github.ncttrade.exception.InvalidSymbolException;
+import com.github.ncttrade.forex.exception.InvalidSymbolException;
 
 
 public class Help {

@@ -1,4 +1,4 @@
-package com.github.ncttrade.model;
+package com.github.ncttrade.forex.model;
 
 import com.fasterxml.jackson.annotation.JsonProperty;
 import lombok.AllArgsConstructor;

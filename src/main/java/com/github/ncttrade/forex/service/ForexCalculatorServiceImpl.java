@@ -1,11 +1,11 @@
-package com.github.ncttrade.service;
+package com.github.ncttrade.forex.service;
 
-import com.github.ncttrade.api.LivePrice;
-import com.github.ncttrade.exception.InvalidSymbolException;
-import com.github.ncttrade.model.Symbol;
-import com.github.ncttrade.model.dto.MarginRequest;
-import com.github.ncttrade.model.dto.PositionSizeRequest;
-import com.github.ncttrade.util.Help;
+import com.github.ncttrade.forex.api.LivePrice;
+import com.github.ncttrade.forex.exception.InvalidSymbolException;
+import com.github.ncttrade.forex.model.Symbol;
+import com.github.ncttrade.forex.model.dto.MarginRequest;
+import com.github.ncttrade.forex.model.dto.PositionSizeRequest;
+import com.github.ncttrade.forex.util.Help;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
@@ -15,7 +15,7 @@ import java.net.URISyntaxException;
 
 @Service
 @RequiredArgsConstructor
-public class ForexCalculatorImpl implements ForexCalculator {
+public class ForexCalculatorServiceImpl implements ForexCalculatorService {
     private final LivePrice livePrice;
 
     @Override
