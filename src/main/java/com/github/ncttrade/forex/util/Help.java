@@ -2,8 +2,28 @@ package com.github.ncttrade.forex.util;
 
 import com.github.ncttrade.forex.exception.InvalidSymbolException;
 
+import java.util.Set;
+
 
 public class Help {
+    public static final Set<String> symbols = Set.of(
+            "AUDCAD", "AUDCHF", "AUDJPY", "AUDNZD", "AUDSGD", "AUDUSD",
+            "CADAUD", "CADCHF", "CADHKD", "CADJPY", "CADPLN", "CADSGD", "CADUSD",
+            "CHFHKD", "CHFJPY", "CHFPLN", "CHFUSD", "CHFSAR", "CHFTWD", "CADINR",
+            "DKKHKD", "DKKJPY", "DKKNOK", "DKKPLN", "DKKSEK", "DKKUSD",
+            "EURAUD", "EURCAD", "EURCHF", "EURDKK", "EURGBP", "EURHKD", "EURHUF",
+            "EURINR", "EURJPY", "EURNOK", "EURNZD", "EURPLN", "EURRON", "EURRUB",
+            "EURSEK", "EURSGD", "EURTRY", "EURUSD", "GBPCHF", "GBPCAD", "GBPAUD",
+            "GBPNOK", "GBPNZD", "GBPPLN", "GBPSEK", "GBPUSD", "GBPJPY", "GBPZAR",
+            "JPYPLN", "JPYSGD", "JPYTWD", "JPYUSD", "NOKJPY", "NOKPLN", "NOKSEK",
+            "NOKUSD", "NZDAUD", "NZDCAD", "NZDCHF", "NZDJPY", "NZDPLN", "NZDSGD",
+            "NZDUSD", "PLNJPY", "PLNTWD", "PLNUSD", "SEKJPY", "SEKPLN",
+            "SEKUSD", "SGDCHF", "SGDHKD", "SGDINR", "SGDJPY", "SGDPLN", "SGDTWD",
+            "SGDUSD", "USDARS", "USDAUD", "USDCAD", "USDCHF", "USDHKD", "USDHUF",
+            "USDILS", "USDINR", "USDMXN", "USDNOK", "USDPLN", "USDRON", "USDRUB",
+            "USDSEK", "USDSGD", "USDTRY", "USDZAR", "USDJPY", "AUDHKD", "AUDINR",
+            "AUDPLN"
+    );
 
     public static Double getPipLocation(String symbol) throws InvalidSymbolException {
         if (symbol == null || symbol.length() < 6) {

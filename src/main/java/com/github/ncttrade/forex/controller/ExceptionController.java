@@ -12,6 +12,6 @@ public class ExceptionController {
     @ExceptionHandler(InvalidSymbolException.class)
     public ResponseEntity<String> invalidSymbolException(
             InvalidSymbolException ex) {
-        return ResponseEntity.badRequest().body(ex.getMessage());
+        return ResponseEntity.status(403).body(ex.getMessage());
     }
 }

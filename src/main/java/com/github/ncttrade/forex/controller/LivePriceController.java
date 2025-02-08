@@ -13,9 +13,10 @@ import org.springframework.web.bind.annotation.RestController;
 
 import java.io.IOException;
 import java.net.URISyntaxException;
+import java.util.Set;
 
 @RestController
-@RequestMapping("api/forex-prices")
+@RequestMapping("api/v1/forex-prices")
 @RequiredArgsConstructor
 public class LivePriceController {
 
@@ -24,5 +25,10 @@ public class LivePriceController {
     @GetMapping("/symbol={symbol}")
     public ResponseEntity<Symbol> livePrice(@PathVariable("symbol") String symbol) throws URISyntaxException, IOException, InterruptedException, InvalidSymbolException {
         return forexPrice.livePrice(symbol);
+    }
+
+    @GetMapping("/all")
+    public ResponseEntity<Set<Symbol>> livePriceAll() throws URISyntaxException, IOException, InterruptedException, InvalidSymbolException {
+        return forexPrice.livePriceAll();
     }
 }

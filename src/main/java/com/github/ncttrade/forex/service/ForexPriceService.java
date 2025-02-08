@@ -6,7 +6,10 @@ import org.springframework.http.ResponseEntity;
 
 import java.io.IOException;
 import java.net.URISyntaxException;
+import java.util.Set;
 
 public interface ForexPriceService {
     ResponseEntity<Symbol> livePrice(String symbol) throws URISyntaxException, IOException, InterruptedException, InvalidSymbolException;
+
+    ResponseEntity<Set<Symbol>> livePriceAll() throws URISyntaxException, IOException, InterruptedException, InvalidSymbolException;
 }

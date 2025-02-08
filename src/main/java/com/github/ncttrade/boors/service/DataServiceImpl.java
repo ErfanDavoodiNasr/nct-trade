@@ -6,6 +6,7 @@ import com.github.ncttrade.boors.exception.CompanyInvalidException;
 import com.github.ncttrade.boors.model.Title;
 import com.opencsv.exceptions.CsvException;
 import lombok.RequiredArgsConstructor;
+import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 
 import java.io.IOException;
@@ -18,11 +19,11 @@ public class DataServiceImpl implements DataService {
     private final List<String> companies = List.of("zob", "foolad", "shabandar");
 
     @Override
-    public Title findById(Integer id, String company) throws IOException, CsvException, CompanyInvalidException {
+    public ResponseEntity<Title> findById(Integer id, String company) throws IOException, CsvException, CompanyInvalidException {
         if (companyIsValid(company)) {
-            return dataSource.findById(id, company);
+            return ResponseEntity.ok(dataSource.findById(id, company));
         }
-        return null;
+        return ResponseEntity.badRequest().body(null);
     }
 
     private boolean companyIsValid(String company) throws CompanyInvalidException {
@@ -33,10 +34,10 @@ public class DataServiceImpl implements DataService {
     }
 
     @Override
-    public List<Title> findAll(String company) throws IOException, CsvException, CompanyInvalidException {
+    public ResponseEntity<List<Title>> findAll(String company) throws IOException, CsvException, CompanyInvalidException {
         if (companyIsValid(company)) {
-            return dataSource.findAll(company);
+            return ResponseEntity.ok(dataSource.findAll(company));
         }
-        return null;
+        return ResponseEntity.badRequest().body(null);
     }
 }

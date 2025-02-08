@@ -3,11 +3,9 @@ package com.github.ncttrade.forex.service;
 import com.github.ncttrade.forex.api.LivePrice;
 import com.github.ncttrade.forex.exception.InvalidSymbolException;
 import com.github.ncttrade.forex.model.Symbol;
-import com.github.ncttrade.forex.model.dto.MarginRequest;
-import com.github.ncttrade.forex.model.dto.PositionSizeRequest;
+import com.github.ncttrade.forex.model.dto.*;
 import com.github.ncttrade.forex.util.Help;
 import lombok.RequiredArgsConstructor;
-import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 
 import java.io.IOException;
@@ -19,29 +17,51 @@ public class ForexCalculatorServiceImpl implements ForexCalculatorService {
     private final LivePrice livePrice;
 
     @Override
-    public ResponseEntity<Double> positionSize(PositionSizeRequest req) throws URISyntaxException, IOException, InterruptedException, InvalidSymbolException {
-        Symbol liveSymbol = livePrice.getLivePrice(req.getSymbol());
-        return ResponseEntity.ok(positionSizeCalculate(req, liveSymbol));
+    public ResultResponse positionSize(PositionSizeRequest req) throws URISyntaxException, IOException, InterruptedException, InvalidSymbolException {
+        Symbol liveSymbol = livePrice.getLivePrice(req.symbol());
+        return positionSizeCalculate(req, liveSymbol);
     }
 
-    private double positionSizeCalculate(PositionSizeRequest req, Symbol liveSymbol) throws InvalidSymbolException {
-        return Math.abs(((req.getBalance() * req.getAmountOfRiskInPercent()) / (liveSymbol.getPrice() - req.getStopLoss()))
-                / valueOfOnePip(req.getSymbol(), liveSymbol.getPrice()));
-    }
-
-    @Override
-    public Double valueOfOnePip(String symbol, Double livePrice) throws InvalidSymbolException {
-        return (Help.getPipLocation(symbol) / livePrice) * 100_000;
+    private ResultResponse positionSizeCalculate(PositionSizeRequest req, Symbol liveSymbol) throws InvalidSymbolException {
+        double result = Math.abs(((req.balance() * req.amountOfRiskInPercent()) / (liveSymbol.getPrice() - req.stopLoss()))
+                / valueOfOnePip(liveSymbol.getName(), liveSymbol.getPrice()).result());
+        return new ResultResponse(result, "successful");
     }
 
     @Override
-    public ResponseEntity<Double> margin(MarginRequest marginRequest) throws URISyntaxException, IOException, InterruptedException, InvalidSymbolException {
-        String finalSymbol = marginRequest.getSymbol().substring(0, 3).concat(marginRequest.getAccountCurrency());
-        return ResponseEntity.ok(marginCalculate(marginRequest, marginRequest.getTradeSize(), finalSymbol));
+    public ResultResponse valueOfOnePip(String symbol, Double livePrice) throws InvalidSymbolException {
+        Double result = (Help.getPipLocation(symbol) / livePrice) * 100_000;
+        return new ResultResponse(result, "successful");
     }
 
-    private double marginCalculate(MarginRequest marginRequest, Double tradeSize, String finalSymbol) throws URISyntaxException, IOException, InterruptedException, InvalidSymbolException {
+    @Override
+    public ResultResponse margin(MarginRequest marginRequest) throws URISyntaxException, IOException, InterruptedException, InvalidSymbolException {
+        String finalSymbol = marginRequest.symbol().substring(0, 3).concat(marginRequest.accountCurrency());
+        return marginCalculate(marginRequest, marginRequest.tradeSize(), finalSymbol);
+    }
+
+    @Override
+    public ResultResponse valueOfOnePip(String symbol) throws InvalidSymbolException, URISyntaxException, IOException, InterruptedException {
+        Double pipLocation = Help.getPipLocation(symbol);
+        Double result = (pipLocation / livePrice.getLivePrice(symbol).getPrice()) * 100_000;
+        return new ResultResponse(result, "successful");
+    }
+
+    @Override
+    public ResultResponse leverage(LeverageRequest req) {
+        return null;
+    }
+
+    @Override
+    public ResultResponse riskOfRuin(RiskOfRuinRequest req) {
+        Double expectedValue = (req.winRateInPercent() * req.averageWin()) - ((1 - req.winRateInPercent()) * (req.averageLoss()));
+        Double result = (Math.pow(((req.averageLoss() - expectedValue) / (req.averageLoss() + expectedValue)), (req.lossLevelInPercent() / req.riskPerTradeInPercent()))) * 100;
+        return new ResultResponse(result, "successful");
+    }
+
+    private ResultResponse marginCalculate(MarginRequest marginRequest, Double tradeSize, String finalSymbol) throws URISyntaxException, IOException, InterruptedException, InvalidSymbolException {
         tradeSize *= 100_000;
-        return (tradeSize * livePrice.getLivePrice(finalSymbol).getPrice()) / marginRequest.getMarginRatio();
+        Double result = (tradeSize * livePrice.getLivePrice(finalSymbol).getPrice()) / marginRequest.marginRatio();
+        return new ResultResponse(result, "successful");
     }
 }
