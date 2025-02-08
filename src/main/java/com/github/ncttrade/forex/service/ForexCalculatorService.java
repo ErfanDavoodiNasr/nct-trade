@@ -15,7 +15,7 @@ public interface ForexCalculatorService {
 
     ResultResponse valueOfOnePip(String symbol) throws InvalidSymbolException, URISyntaxException, IOException, InterruptedException;
 
-    ResultResponse leverage(LeverageRequest req);
+    ResultResponse leverage(LeverageRequest req) throws URISyntaxException, IOException, InterruptedException, InvalidSymbolException;
 
     ResultResponse riskOfRuin(RiskOfRuinRequest req);
 }

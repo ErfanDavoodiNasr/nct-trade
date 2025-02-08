@@ -20,15 +20,15 @@ import java.util.Set;
 @RequiredArgsConstructor
 public class LivePriceController {
 
-    private final ForexPriceService forexPrice;
+    private final ForexPriceService forexPriceService;
 
     @GetMapping("/symbol={symbol}")
     public ResponseEntity<Symbol> livePrice(@PathVariable("symbol") String symbol) throws URISyntaxException, IOException, InterruptedException, InvalidSymbolException {
-        return forexPrice.livePrice(symbol);
+        return ResponseEntity.ok(forexPriceService.livePrice(symbol));
     }
 
     @GetMapping("/all")
     public ResponseEntity<Set<Symbol>> livePriceAll() throws URISyntaxException, IOException, InterruptedException, InvalidSymbolException {
-        return forexPrice.livePriceAll();
+        return ResponseEntity.ok(forexPriceService.livePriceAll());
     }
 }

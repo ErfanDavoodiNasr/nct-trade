@@ -48,8 +48,9 @@ public class ForexCalculatorServiceImpl implements ForexCalculatorService {
     }
 
     @Override
-    public ResultResponse leverage(LeverageRequest req) {
-        return null;
+    public ResultResponse leverage(LeverageRequest req) throws URISyntaxException, IOException, InterruptedException, InvalidSymbolException {
+        Double result = (livePrice.getLivePrice(req.symbol()).getPrice() * req.tradeSize() * 100_000) / req.margin();
+        return new ResultResponse(result, "successful");
     }
 
     @Override
